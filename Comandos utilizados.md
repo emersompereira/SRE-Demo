@@ -39,13 +39,13 @@ explicar comando.....
 
 *kubectl apply -f k8s/service.yaml*
 
-*kubectl apply -f k8s/hpa.yam*l
+*kubectl apply -f k8s/hpa.yaml*
 
 
 
 **Mapeamento de porta entre host e o cluster:**
 
-*kubectl port-forward svc/sre-demo 8080:8080*
+*kubectl port-forward svc/sre-demo 8080:8080* ou *kubectl port-forward --address 0.0.0.0 svc/sre-demo 8080:8080* **para acessar com IP público.**
 
 **Observação sobre ServiceMonitor (Prometheus)**
 

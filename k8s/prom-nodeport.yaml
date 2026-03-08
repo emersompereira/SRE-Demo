@@ -1,0 +1,13 @@
+# prom-nodeport.yaml
+grafana:
+  service:
+    type: NodePort
+    nodePort: 32000 # Porta que ficará aberta na AWS
+prometheus:
+  service:
+    type: NodePort
+    nodePort: 32090
+alertmanager:
+  service:
+    type: NodePort
+    nodePort: 32093
