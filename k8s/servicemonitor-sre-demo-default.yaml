@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sre-demo-servicemonitor
+  namespace: default
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: sre-demo
+  endpoints:
+    - targetPort: 8080
+      path: /metrics
+      interval: 15s
+      scrapeTimeout: 10s

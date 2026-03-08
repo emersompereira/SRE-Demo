@@ -1,0 +1,80 @@
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 1
+    memory: 1Gi
+
+# Injeta a senha do Elasticsearch para ser usada no logstash.conf
+extraEnvs:
+  - name: ELASTIC_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-master-credentials
+        key: password
+
+logstashConfig:
+  logstash.yml: |
+    http.host: "0.0.0.0"
+    xpack.monitoring.enabled: false
+
+# Configuração do Pipeline (Pipeline.conf)
+logstashPipeline:
+  logstash.conf: |
+    input {
+      beats { 
+        port => 5044 
+      }
+      # Adicionei um input de TCP para você poder testar manualmente se quiser
+      tcp {
+        port => 5000
+        codec => json
+      }
+    }
+
+    filter {
+      if [message] {
+        grok {
+          match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level} %{DATA:endpoint} latency=%{NUMBER:latency}ms(?: status=%{INT:status_code})?(?: %{GREEDYDATA:rest})?" }
+        }
+        date { 
+          match => ["timestamp", "ISO8601"] 
+        }
+        mutate { 
+          convert => { "latency" => "float" } 
+        }
+      }
+    }
+
+    output {
+      elasticsearch {
+        hosts => ["https://elasticsearch-master:9200"]
+        # Usando a variável injetada no extraEnvs
+        user => "elastic"
+        password => "${ELASTIC_PASSWORD}"
+        # Como o certificado é auto-assinado pelo Kind, desabilitamos a verificação
+        ssl => true
+        ssl_certificate_verification => false
+        index => "app-logs-%{+YYYY.MM.dd}"
+      }
+      # Debug: exibe no log do pod tudo que o Logstash processar
+      stdout { codec => rubydebug }
+    }
+
+service:
+  type: ClusterIP
+  ports:
+    - name: beats
+      port: 5044
+      targetPort: 5044
+      protocol: TCP
+    - name: tcp-test
+      port: 5000
+      targetPort: 5000
+      protocol: TCP
+
+persistence:
+  enabled: false

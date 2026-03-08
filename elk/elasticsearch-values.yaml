@@ -1,0 +1,24 @@
+# Deixe o Helm gerenciar os nós mestres automaticamente
+replicas: 1
+
+esConfig:
+  elasticsearch.yml: |
+    node.store.allow_mmap: false
+    # Removemos o discovery.type: single-node daqui para evitar o conflito
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi # Se puder subir para 2Gi, o boot será mais rápido
+
+persistence:
+  enabled: false
+
+volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi

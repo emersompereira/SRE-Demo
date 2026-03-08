@@ -1,0 +1,15 @@
+resources:
+  requests:
+    cpu: "100m"
+    memory: "512Mi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+kibanaConfig:
+  kibana.yml: |
+    server.host: "0.0.0.0"
+    elasticsearch.hosts: ["https://elasticsearch-master:9200"]
+    # Usamos o TOKEN em vez de usuário/senha
+    elasticsearch.serviceAccountToken: AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbjpuSzd4RHJjWFEzNllIbTRTMGtYVXhR
+    elasticsearch.ssl.verificationMode: none
