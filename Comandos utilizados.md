@@ -60,10 +60,16 @@ explicar comando.....
 
 kubectl create namespace monitoring
 
+*helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring*
+
+*kubectl apply -f k8s/servicemonitor-sre-demo-default.yaml*
+
 
 kubectl port-forward -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090
 # abrir http://localhost:9090/targets
 
+
+**Grafana**
 
 kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80
 # abrir http://localhost:3000  (usuário/senha padrão configurados pelo chart)
