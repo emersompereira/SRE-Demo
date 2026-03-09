@@ -1,10 +1,17 @@
+resources:
+  requests:
+    cpu: "100m"
+    memory: "512Mi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
 kibanaConfig:
   kibana.yml: |
     server.host: "0.0.0.0"
     elasticsearch.hosts: ["https://elasticsearch-master:9200"]
-    # Trocamos Token por Basic Auth
-    elasticsearch.username: "elastic"
-    elasticsearch.password: "T0eStDvFMS7Km3Rt"
+    # NOVO TOKEN GERADO ABAIXO
+    elasticsearch.serviceAccountToken: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbi1maW5hbDpYNVd2QW5HNlNhVzdyT1ZUbXNfbHFB"
     elasticsearch.ssl.verificationMode: none
 
 service:
