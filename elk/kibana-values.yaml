@@ -13,3 +13,7 @@ kibanaConfig:
     # Usamos o TOKEN em vez de usuário/senha
     elasticsearch.serviceAccountToken: AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbjpuSzd4RHJjWFEzNllIbTRTMGtYVXhR
     elasticsearch.ssl.verificationMode: none
+
+service:
+  type: NodePort
+  nodePort: 32561
