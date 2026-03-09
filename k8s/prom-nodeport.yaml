@@ -11,6 +11,7 @@ prometheus:
     type: NodePort
     nodePort: 32090
 alertmanager:
+  enabled: true
   service:
     type: NodePort
     nodePort: 32093
