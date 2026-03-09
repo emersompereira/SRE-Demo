@@ -4,6 +4,8 @@ grafana:
   service:
     type: NodePort
     nodePort: 32000 # Porta que ficará aberta na AWS
+    port: 80
+    targetPort: 3000
 prometheus:
   service:
     type: NodePort
