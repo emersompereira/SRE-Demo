@@ -1,5 +1,6 @@
 # prom-nodeport.yaml
 grafana:
+  enabled: true
   service:
     type: NodePort
     nodePort: 32000 # Porta que ficará aberta na AWS
