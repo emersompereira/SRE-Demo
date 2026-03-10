@@ -46,5 +46,6 @@ USER appuser
 # Expõe a porta configurável
 EXPOSE ${PORT}
 
-# Executa usando a forma em shell para interpolar a variável $PORT dinamicamente
-CMD /opt/venv/bin/uvicorn main:app --host 0.0.0.0 --port $PORT
+# Executa usando o formato JSON (exec form) recomendado, mas com shell para interpolar a variável $PORT
+# O "exec" garante que o Uvicorn receba os sinais de SO (como SIGTERM) corretamente em vez do shell
+CMD ["sh", "-c", "exec /opt/venv/bin/uvicorn main:app --host 0.0.0.0 --port $PORT"]
