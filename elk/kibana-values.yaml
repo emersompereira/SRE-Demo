@@ -8,6 +8,8 @@ resources:
 
 # Injeção direta no container ignorando arquivos YAML internos
 extraEnvs:
+  - name: ELASTICSEARCH_HOSTS
+    value: "https://elasticsearch-master:9200"
   - name: ELASTICSEARCH_USERNAME
     value: "elastic"
   - name: ELASTICSEARCH_PASSWORD

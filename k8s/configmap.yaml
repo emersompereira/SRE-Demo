@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: sre-demo-config
-  labels:
-    app: sre-demo
-data:
-  # Ambiente da aplicação (sobrescreva conforme necessário)
-  APP_ENV: production
