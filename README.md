@@ -5,6 +5,7 @@
 ### Pré-requisitos
 - Docker instalado
 - (para K8s) Kind ou Minikube
+- Git
 
 ### Rodando localmente com Docker
 
