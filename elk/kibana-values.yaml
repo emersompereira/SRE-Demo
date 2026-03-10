@@ -6,15 +6,20 @@ resources:
     cpu: "1000m"
     memory: "2Gi"
 
-kibanaConfig:
-  kibana.yml: |
-    server.host: "0.0.0.0"
-    elasticsearch.hosts: ["https://elasticsearch-master:9200"]
-    elasticsearch.serviceAccountToken: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbi1vZmljaWFsOlBXT0tZTU1qU2RPU0hHdm1ad0VNZ0E"
-    elasticsearch.ssl.verificationMode: none
-    xpack.encryptedSavedObjects.encryptionKey: "12345678901234567890123456789012"
-    xpack.reporting.encryptionKey: "12345678901234567890123456789012"
-    xpack.security.encryptionKey: "12345678901234567890123456789012"
+# Injeção direta no container ignorando arquivos YAML internos
+extraEnvs:
+  - name: ELASTICSEARCH_USERNAME
+    value: "elastic"
+  - name: ELASTICSEARCH_PASSWORD
+    value: "+5SjaYv_Uz-t8WEz5nEF"
+  - name: ELASTICSEARCH_SSL_VERIFICATIONMODE
+    value: "none"
+  - name: XPACK_SECURITY_ENCRYPTIONKEY
+    value: "12345678901234567890123456789012"
+  - name: XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY
+    value: "12345678901234567890123456789012"
+  - name: XPACK_REPORTING_ENCRYPTIONKEY
+    value: "12345678901234567890123456789012"
 
 service:
   type: NodePort
