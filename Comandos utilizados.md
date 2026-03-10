@@ -75,9 +75,8 @@ kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80
 # abrir http://localhost:3000  (usuário/senha padrão configurados pelo chart)
 
 
-$pw = kubectl get secret --namespace monitoring -l app.kubernetes.io/component=admin-secret -o jsonpath="{.items[0].data['admin-password']}"
-[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($pw))
-# Senha grafana
+# Senha grafana 
+kubectl get secret --namespace monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
 
 
