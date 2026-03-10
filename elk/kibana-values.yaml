@@ -10,9 +10,11 @@ kibanaConfig:
   kibana.yml: |
     server.host: "0.0.0.0"
     elasticsearch.hosts: ["https://elasticsearch-master:9200"]
-    # NOVO TOKEN GERADO ABAIXO
     elasticsearch.serviceAccountToken: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbi1vZmljaWFsOlBXT0tZTU1qU2RPU0hHdm1ad0VNZ0E"
     elasticsearch.ssl.verificationMode: none
+    xpack.encryptedSavedObjects.encryptionKey: "12345678901234567890123456789012"
+    xpack.reporting.encryptionKey: "12345678901234567890123456789012"
+    xpack.security.encryptionKey: "12345678901234567890123456789012"
 
 service:
   type: NodePort
