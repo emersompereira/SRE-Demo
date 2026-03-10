@@ -37,17 +37,14 @@ WORKDIR /app
 # Copia apenas o venv do estágio anterior (sem pip, compiladores, etc.)
 COPY --from=builder /opt/venv /opt/venv
 
-# Copia o código-fonte
-COPY app/ .
+# Copia o código-fonte ajustando o dono em uma única instrução (Otimização de Layers)
+COPY --chown=appuser:appgroup app/ .
 
-# Ajusta dono dos arquivos
-RUN chown -R appuser:appgroup /app
-
-# Usa o usuário não-root
+# Usa o usuário não-root (Segurança)
 USER appuser
 
 # Expõe a porta configurável
 EXPOSE ${PORT}
 
-# Ativa o venv e sobe o servidor
-CMD ["/opt/venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+# Executa usando a forma em shell para interpolar a variável $PORT dinamicamente
+CMD /opt/venv/bin/uvicorn main:app --host 0.0.0.0 --port $PORT
