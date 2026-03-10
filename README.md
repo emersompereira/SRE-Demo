@@ -1,4 +1,4 @@
-# SRE Pleno Test
+# SRE Pleno Test - Emersom Pereira
 
 ## 🚀 Quick Start
 
@@ -60,25 +60,21 @@ sre-pleno-test/
 │   └── hpa.yaml
 ├── monitoring/          # Observabilidade (Tarefa 3)
 │   └── grafana-dashboard.json
-├── ci/                  # Pipeline CI/CD (Tarefa 4)
-│   └── pipeline.yaml
-└── elk/                 # Stack ELK (Tarefa 5)
-    ├── filebeat.yaml
-    ├── logstash.conf
-    └── kibana-dashboard.json
+└── .github/workflows/   # Pipeline CI/CD com GitHub Actions (Tarefa 4)
+    └── pipeline.yaml
 ```
 
 ---
 
 ## 📋 Componentes
 
-### App (FastAPI + Python 3.12)
-- **`/`** — Retorna ambiente (`APP_ENV`) e timestamp UTC.
-- **`/health`** — Liveness probe, retorna `200 OK`.
-- **`/ready`** — Readiness probe, retorna `200 OK`.
-- **`/metrics`** — Endpoint scrapeado pelo Prometheus.
+- **App:** API em FastAPI c/ Python 3.12 usando `uvicorn`. Possui documentação automática e probes `/health`, `/ready` e `/metrics`.
+- **K8s:** Deployment configurado via ConfigMap nativo e referências em Variável de ambiente, service exposto via `NodePort` (30080) e escalabilidade dinâmica (HPA v2 auto-scaling) com base em limite de RAM e CPU.
+- **Monitoring:** Scraping automático no Prometheus via Native Kubernetes deployment annotations (`prometheus.io/scrape`). O Dashboard centraliza e mede requisições (por segundo/totais), latência no 95º percentil (P95) e taxa de erro 5xx.
+- **CI/CD:** GitHub Actions que abrange validações de Docker (Lint) com hadolint, Build, Push para o repo de pacotes GitHub Registry (GHCR) e simula a consistência deploy de Kubernetes em Action usando cluster efêmero.
+- **ELK:** [Omitido do escopo desta implementação]
 
-### Variáveis de Ambiente
+### App e Variáveis de Ambiente
 | Variável  | Padrão    | Descrição                        |
 |-----------|-----------|----------------------------------|
 | `APP_ENV` | `staging` | Ambiente da aplicação            |
@@ -110,5 +106,6 @@ Timestamp ISO 8601 + nível + endpoint + latência — compatível com o grok do
 | **Usuário não-root (UID 1001)** | Segurança: container não roda como root |
 | **FastAPI + uvicorn** | Framework assíncrono, simples, com suporte nativo a JSON e middleware |
 | **prometheus-client** | Biblioteca oficial; integração direta com Prometheus sem agent externo |
-| **Logs em stdout** | Padrão 12-factor app; Filebeat captura automaticamente via K8s |
+| **Logs em stdout** | Padrão 12-factor app; facilita captação de logs por rotadores de Kubernetes |
 | **CMD c/ exec form e shell** | Garante interpolação de variáveis de ambiente (`$PORT`) enquanto mantém o repasse correto de sinais (`SIGTERM`) para graceful shutdown |
+| **Testes Efêmeros CI/CD** | Uso do `helm/kind-action` para simular consistência k8s nativamente na pipeline no estilo "Clean Room", diminuindo risco de deployments com falha de sintaxe na master |
