@@ -11,7 +11,7 @@ kibanaConfig:
     server.host: "0.0.0.0"
     elasticsearch.hosts: ["https://elasticsearch-master:9200"]
     # NOVO TOKEN GERADO ABAIXO
-    elasticsearch.serviceAccountToken: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbi1maW5hbDpYNVd2QW5HNlNhVzdyT1ZUbXNfbHFB"
+    elasticsearch.serviceAccountToken: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbi13ZWI6RlhSbHB1bWRRRXFud2twb1dsdm9rdw"
     elasticsearch.ssl.verificationMode: none
 
 service:
