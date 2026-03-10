@@ -5,7 +5,9 @@
 ### Pré-requisitos
 - Docker instalado
 - (para K8s) Kind ou Minikube
-- Git
+- Git (clonar repositório)
+- kubectl (interação com cluster k8s)
+- helm (gerenciar pacotes k8s)
 
 ### Rodando localmente com Docker
 

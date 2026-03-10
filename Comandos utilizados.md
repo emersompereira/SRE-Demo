@@ -81,15 +81,21 @@ kubectl apply -f k8s/servicemonitor-sre-demo-default.yaml
 
 **Acessar a interface do Prometheus Localmente:**
 ``bash
-kubectl port-forward -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090
+local: kubectl port-forward -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090
+IP público: kubectl port-forward --address 0.0.0.0 -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090
 ``
 > Abra http://localhost:9090/targets para conferir a saúde do scrape da sua aplicação.
+ou
+http://IP-publico:9090/targets
 
 **Acessar a interface do Grafana:**
 ``bash
-kubectl port-forward -n monitoring svc/prometheus-grafana 3000:80
+local: kubectl port-forward  -n monitoring svc/prometheus-grafana 3000:80
+IP público: kubectl port-forward --address 0.0.0.0 -n monitoring svc/prometheus-grafana 3000:80
 ``
 > Acesse http://localhost:3000. O usuário de login padrão será dmin.
+ou
+http://IP-publico:3000
 
 **Coletar senha raiz gerada pelo Helm para o Grafana:**
 ``bash
