@@ -9,7 +9,7 @@
 ### Rodando localmente com Docker
 
 ```bash
-# Build da imagem
+# Build da imagem (adicione --no-cache se houver problemas de build/cache)
 docker build -t sre-demo:latest .
 
 # Executar o container na porta padrão (8080)
@@ -111,3 +111,4 @@ Timestamp ISO 8601 + nível + endpoint + latência — compatível com o grok do
 | **FastAPI + uvicorn** | Framework assíncrono, simples, com suporte nativo a JSON e middleware |
 | **prometheus-client** | Biblioteca oficial; integração direta com Prometheus sem agent externo |
 | **Logs em stdout** | Padrão 12-factor app; Filebeat captura automaticamente via K8s |
+| **CMD c/ exec form e shell** | Garante interpolação de variáveis de ambiente (`$PORT`) enquanto mantém o repasse correto de sinais (`SIGTERM`) para graceful shutdown |
