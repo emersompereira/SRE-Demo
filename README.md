@@ -12,10 +12,18 @@
 # Build da imagem
 docker build -t sre-demo:latest .
 
-# Executar o container
-docker run -p 8080:8080 \
+# Executar o container na porta padrão (8080)
+docker run -d -p 8080:8080 \
   -e APP_ENV=staging \
   -e PORT=8080 \
+  --name sre-demo-app \
+  sre-demo:latest
+
+# Executar o container modificando o ambiente e a porta (Exemplo de Flexibilidade)
+docker run -d -p 9000:9000 \
+  -e PORT=9000 \
+  -e APP_ENV=production \
+  --name sre-demo-app-prod \
   sre-demo:latest
 ```
 
