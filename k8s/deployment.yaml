@@ -1,3 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sre-demo-config
+  labels:
+    app: sre-demo
+data:
+  APP_ENV: staging
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,7 +24,7 @@ spec:
         app: sre-demo
     spec:
       containers:
-        - name: sre-demo
+        - name: app
           # Imagem local; em Kind rode `kind load docker-image sre-demo:latest`
           image: sre-demo:latest
           imagePullPolicy: IfNotPresent
@@ -29,7 +38,7 @@ spec:
               cpu: "100m"
               memory: "128Mi"
             limits:
-              cpu: "250m"
+              cpu: "200m"
               memory: "256Mi"
           livenessProbe:
             httpGet:
