@@ -42,15 +42,21 @@ kind load docker-image sre-demo:latest --name sre-cluster
 
 **Aplicar os manifestos da aplicação:**
 ``bash
-kubectl apply -f k8s/
+kubectl apply -f k8s/deployment.yaml
 ``
 > Passar uma pasta (invés de um único arquivo) faz com que o Kubernetes avalie e aplique todos os manifestos de dentro do repositório de uma vez (deployment.yaml, service.yaml, hpa.yaml).
 
-**Mapeamento de porta da aplicação para IP Público ou Host:**
+**OBS.:Nesse projeto ainda é necessário a aplicação dos manifestos um por vez, pois ainda não está 100% otimizado** 
+kubectl apply -f k8s/deployment.yaml - Configuração da aplicação, alocação de recursos, quantidade de répiclas e etc.
+kubectl apply -f k8s/hpa.yaml - Configuração do AutoScaler horizontal
+apply -f k8s/service.yaml - Exposição da aplicação
+apply -f k8s/metrics-server.yaml - Instalação do metrics-server para agregar as métricas
+
+**Mapeamento de porta da aplicação para Host:**
 ``bash
 kubectl port-forward svc/sre-demo 8080:8080
 # Ou exportando para um IP Público (Máquinas AWS/Cloud):
-kubectl port-forward --address 0.0.0.0 svc/sre-demo 8080:8080
+kubectl port-forward --address 0.0.0.0 svc/sre-demo 8080:8080 > /dev/null 2>&1 &
 ``
 
 ---
@@ -82,7 +88,7 @@ kubectl apply -f k8s/servicemonitor-sre-demo-default.yaml
 **Acessar a interface do Prometheus Localmente:**
 ``bash
 local: kubectl port-forward -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090
-IP público: kubectl port-forward --address 0.0.0.0 -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090
+IP público: kubectl port-forward --address 0.0.0.0 -n monitoring svc/prometheus-kube-prometheus-prometheus 9090:9090 > /dev/null 2>&1 &
 ``
 > Abra http://localhost:9090/targets para conferir a saúde do scrape da sua aplicação.
 ou
@@ -91,9 +97,9 @@ http://IP-publico:9090/targets
 **Acessar a interface do Grafana:**
 ``bash
 local: kubectl port-forward  -n monitoring svc/prometheus-grafana 3000:80
-IP público: kubectl port-forward --address 0.0.0.0 -n monitoring svc/prometheus-grafana 3000:80
+IP público: kubectl port-forward --address 0.0.0.0 -n monitoring svc/prometheus-grafana 3000:80 > /dev/null 2>&1 &
 ``
-> Acesse http://localhost:3000. O usuário de login padrão será dmin.
+> Acesse http://localhost:3000. O usuário de login padrão será admin.
 ou
 http://IP-publico:3000
 
@@ -101,4 +107,4 @@ http://IP-publico:3000
 ``bash
 kubectl get secret --namespace monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ``
-> O terminal exibirá uma senha aleatória que você usa em conjunto com dmin para visualizar o Dashboard providenciado na pasta /monitoring.
+> O terminal exibirá uma senha aleatória que você usa em conjunto com admin para visualizar o Dashboard providenciado na pasta /monitoring.
