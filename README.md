@@ -9,7 +9,7 @@
 - kubectl (interação com cluster k8s)
 - helm (gerenciar pacotes k8s)
 
-### OBS.: É esperado as ferramentas acima estekam instaladas e o repositório esteja clonado com autenticação ativa para seguir com as instruções de execução abaixo:
+### OBS.: É esperado que as ferramentas acima estejam instaladas e o repositório esteja clonado com autenticação ativa para seguir com as instruções de execução abaixo:
 
 ### Rodando localmente com Docker ###
 
