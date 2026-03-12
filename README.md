@@ -9,7 +9,9 @@
 - kubectl (interação com cluster k8s)
 - helm (gerenciar pacotes k8s)
 
-### Rodando localmente com Docker
+### OBS.: É esperado as ferramentas acima estekam instaladas e o repositório esteja clonado com autenticação ativa para seguir com as instruções de execução abaixo:
+
+### Rodando localmente com Docker ###
 
 ```bash
 # Build da imagem (adicione --no-cache se houver problemas de build/cache)
